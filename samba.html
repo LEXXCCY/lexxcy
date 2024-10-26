@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Instalasi Samba di Debian 11</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #00f5d4, #00d4f5);
+            padding: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #333;
+        }
+
+        .page-title h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .page-title p {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #00f5d4;
+        }
+
+        .section-header i {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            color: #00d4f5;
+        }
+
+        .section-header h2 {
+            color: #333;
+            font-size: 1.3rem;
+        }
+
+        pre {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #00f5d4;
+            overflow-x: auto;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .note {
+            background-color: #fff3cd;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+            margin: 1rem 0;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 1rem;
+        }
+
+        ul li {
+            margin: 0.5rem 0;
+            position: relative;
+        }
+
+        ul li:before {
+            content: "\f00c";
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            margin-right: 0.5rem;
+            color: #00d4f5;
+        }
+
+        .back-button {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, #00f5d4, #00d4f5);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .page-title h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">LEXXCY</div>
+    </header>
+
+    <div class="container">
+        <a href="/" class="back-button">
+            <i class="fas fa-arrow-left"></i> Kembali
+        </a>
+
+        <div class="page-title">
+            <h1><i class="fas fa-share-alt"></i> Panduan Instalasi Samba</h1>
+            <p>Langkah-langkah instalasi dan konfigurasi Samba di Debian 11</p>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-check-circle"></i>
+                <h2>Prasyarat</h2>
+            </div>
+            <ul>
+                <li>Debian 11 sudah terinstal di VirtualBox</li>
+                <li>Koneksi internet aktif</li>
+                <li>Akses root atau sudo</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-sync"></i>
+                <h2>Update Sistem</h2>
+            </div>
+            <pre>sudo apt update
+sudo apt upgrade -y</pre>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-download"></i>
+                <h2>Instalasi Samba</h2>
+            </div>
+            <pre>sudo apt install samba samba-common -y</pre>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-file-alt"></i>
+                <h2>Backup Konfigurasi</h2>
+            </div>
+            <pre>sudo cp /etc/samba/smb.conf /etc/samba/smb.conf.backup</pre>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-cogs"></i>
+                <h2>Konfigurasi Samba</h2>
+            </div>
+            <p>Edit file konfigurasi Samba:</p>
+            <pre>sudo nano /etc/samba/smb.conf</pre>
+            <p>Tambahkan konfigurasi berikut di akhir file:</p>
+            <pre>[shared]
+    comment = Direktori Berbagi
+    path = /srv/samba/shared
+    read only = no
+    browsable = yes
+    guest ok = yes
+    create mask = 0777
+    directory mask = 0777</pre>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-folder-plus"></i>
+                <h2>Membuat Direktori Sharing</h2>
+            </div>
+            <pre>sudo mkdir -p /srv/samba/shared
+sudo chmod 777 /srv/samba/shared</pre>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-user-plus"></i>
+                <h2>Membuat User Samba</h2>
+            </div>
+            <pre>sudo smbpasswd -a username</pre>
+            <div class="note">
+                Ganti "username" dengan nama pengguna yang diinginkan
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-redo"></i>
+                <h2>Restart Layanan</h2>
+            </div>
+            <pre>sudo systemctl restart smbd
+sudo systemctl restart nmbd</pre>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-shield-alt"></i>
+                <h2>Konfigurasi Firewall</h2>
+            </div>
+            <pre>sudo ufw allow samba</pre>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-check"></i>
+                <h2>Pengujian</h2>
+            </div>
+            <p>Di Windows:</p>
+            <ul>
+                <li>Buka File Explorer</li>
+                <li>Ketik di address bar: \\IP-ADDRESS</li>
+                <li>Ganti IP-ADDRESS dengan IP Debian VirtualBox</li>
+            </ul>
+            <p>Untuk mengetahui IP address Debian:</p>
+            <pre>ip addr show</pre>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-bug"></i>
+                <h2>Troubleshooting</h2>
+            </div>
+            <ul>
+                <li>Periksa status Samba: <code>sudo systemctl status smbd</code></li>
+                <li>Periksa log: <code>sudo tail -f /var/log/samba/log.smbd</code></li>
+                <li>Pastikan pengaturan jaringan VirtualBox dalam mode Bridge</li>
+                <li>Periksa permissions direktori sharing</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('scroll', function() {
+            const backButton = document.querySelector('.back-button');
+            if (window.scrollY > 50) {
+                backButton.style.backgroundColor = '#654321';
+            } else {
+                backButton.style.background = 'linear-gradient(135deg, #00f5d4, #00d4f5)';
+            }
+        });
+    </script>
+</body>
+</html>

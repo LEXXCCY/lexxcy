@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #00f5d4, #00d4f5);
+            padding: 1.2rem;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .tutorial-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .tutorial-header h1 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .tutorial-header .meta-info {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            color: #666;
+            margin-top: 1rem;
+        }
+
+        .meta-info div {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .step-container {
+            margin-top: 2rem;
+        }
+
+        .step-card {
+            background: white;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .step-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .step-number {
+            background: linear-gradient(135deg, #00f5d4, #00d4f5);
+            color: #333;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .step-card h3 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .step-card p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .image-placeholder {
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1rem 0;
+            text-align: center;
+            color: #666;
+        }
+
+        .tip-box {
+            background: #e1f5fe;
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            border-left: 4px solid #00f5d4;
+        }
+
+        .requirement-list {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .requirement-list ul {
+            list-style: none;
+        }
+
+        .requirement-list li {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .requirement-list i {
+            color: #00f5d4;
+        }
+
+        .back-button {
+            position: fixed;
+            bottom: 20px; /* Jarak dari bawah */
+            left: 20px; /* Jarak dari kiri */
+            background: linear-gradient(135deg, #00f5d4, #00d4f5);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: background 0.3s;
+        }
+
+        .back-button:hover {
+            background: #00d4f5; /* Ganti warna saat hover */
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .meta-info {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .step-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">LEXXCY</div>
+    </header>
+
+    <div class="container">
+        <div class="tutorial-header">
+            <h1><i class="fas fa-server"></i> Tutorial Instalasi Debian 11 di VirtualBox</h1>
+            <p>Panduan lengkap cara menginstal Debian 11 (Bullseye) di Oracle VirtualBox</p>
+            <div class="meta-info">
+                <div><i class="fas fa-clock"></i> Durasi: 30-45 menit</div>
+                <div><i class="fas fa-level-up-alt"></i> Level: Pemula</div>
+                <div><i class="fas fa-tasks"></i> 10 Langkah</div>
+            </div>
+        </div>
+
+        <div class="requirement-list">
+            <h2><i class="fas fa-list-check"></i> Persyaratan</h2>
+            <ul>
+                <li><i class="fas fa-check-circle"></i> VirtualBox sudah terinstal di komputer</li>
+                <li><i class="fas fa-check-circle"></i> File ISO Debian 11 (minimal 4GB ruang disk)</li>
+                <li><i class="fas fa-check-circle"></i> RAM minimal 2GB</li>
+                <li><i class="fas fa-check-circle"></i> Koneksi internet (opsional)</li>
+            </ul>
+        </div>
+
+        <div class="step-container">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <h3>Membuat Virtual Machine Baru</h3>
+                <p>Buka VirtualBox dan klik tombol "New" untuk membuat virtual machine baru.</p>
+                <div class="tip-box">
+                    <i class="fas fa-lightbulb"></i> <strong>Tips:</strong> Beri nama yang mudah diingat untuk VM Anda, misalnya "Debian11"
+                </div>
+                <div class="image-placeholder">
+                    <i class="fas fa-image"></i> Tampilan menu New Virtual Machine
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h3>Konfigurasi Memory (RAM)</h3>
+                <p>Alokasikan minimal 2GB (2048MB) RAM untuk performa yang optimal.</p>
+                <div class="tip-box">
+                    <i class="fas fa-lightbulb"></i> <strong>Tips:</strong> Jangan mengalokasikan lebih dari 50% RAM fisik komputer Anda
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h3>Membuat Virtual Hard Disk</h3>
+                <p>Pilih "Create a virtual hard disk now" dan tentukan ukuran disk minimal 20GB.</p>
+                <p>Pilih format VDI (VirtualBox Disk Image) dan pilih "Dynamically allocated" untuk menghemat ruang disk.</p>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">4</div>
+                <h3>Memulai Instalasi Debian</h3>
+                <p>Start VM dan pilih file ISO Debian 11 yang sudah didownload.</p>
+                <div class="tip-box">
+                    <i class="fas fa-lightbulb"></i> <strong>Tips:</strong> Pastikan checksum ISO sesuai dengan yang ada di website Debian
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">5</div>
+                <h3>Pemilihan Bahasa dan Lokasi</h3>
+                <p>Pilih bahasa dan lokasi sesuai preferensi Anda.</p>
+                <ul>
+                    <li>Bahasa: English/Indonesia</li>
+                    <li>Location: Other → Asia → Indonesia</li>
+                    <li>Keymap: American English</li>
+                </ul>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">6</div>
+                <h3>Konfigurasi Network</h3>
+                <p>Pilih interface network dan konfigurasikan hostname.</p>
+                <div class="tip-box">
+                    <i class="fas fa-lightbulb"></i> <strong>Tips:</strong> Gunakan NAT untuk koneksi internet yang mudah
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">7</div>
+                <h3>Partisi Disk</h3>
+                <p>Pilih metode partisi yang diinginkan:</p>
+                <ul>
+                    <li>Guided - use entire disk (untuk pemula)</li>
+                    <li>Manual (untuk partisi custom)</li>
+                </ul>
+                <div class="tip-box">
+                    <i class="fas fa-lightbulb"></i> <strong>Tips:</strong> Untuk pemula, gunakan opsi Guided partitioning
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">8</div>
+                <h3>Pengaturan User</h3>
+                <p>Buat user dan password root:</p>
+                <ul>
+                    <li>Set root password</li>
+                    <li>Buat user baru</li>
+                    <li>Set password user</li>
+                </ul>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">9</div>
+                <h3>Pemilihan Software</h3>
+                <p>Pilih paket software yang akan diinstal:</p>
+                <ul>
+                    <li>Debian desktop environment</li>
+                    <li>GNOME (default)</li>
+                    <li>Web server</li>
+                    <li>SSH server</li>
+                    <li>Standard system utilities</li>
+                </ul>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">10</div>
+                <h3>Finalisasi Instalasi</h3>
+                <p>Tunggu proses instalasi selesai dan sistem akan restart.</p>
+                <div class="tip-box">
+                    <i class="fas fa-lightbulb"></i> <strong>Tips:</strong> Setelah restart, install VirtualBox Guest Additions untuk performa lebih baik
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a href="#" class="back-button" onclick="goBack()">Kembali</a>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>

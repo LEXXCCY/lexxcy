@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <title>Tutorial Install SSH Server di Debian 11</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #00f5d4, #00d4f5);
+            padding: 1.2rem;
+            text-align: center;
+            color: #333;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: white;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            border-radius: 15px;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem;
+            color: #444;
+            border-left: 4px solid #00d4f5;
+            padding-left: 1rem;
+        }
+
+        .intro {
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+            border-left: 4px solid #00f5d4;
+        }
+
+        .requirements {
+            background-color: #fff3cd;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+        }
+
+        .requirements h3 {
+            color: #856404;
+            margin-bottom: 1rem;
+        }
+
+        .requirements ul {
+            margin-left: 2rem;
+        }
+
+        .step {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border: 1px solid #e9ecef;
+        }
+
+        .step-number {
+            background-color: #00d4f5;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+        }
+
+        code {
+            background-color: #2d3436;
+            color: #fff;
+            padding: 1rem;
+            border-radius: 5px;
+            display: block;
+            margin: 1rem 0;
+            overflow-x: auto;
+            font-family: monospace;
+        }
+
+        .note {
+            background-color: #e7f5ff;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            border-left: 4px solid #339af0;
+        }
+
+        .warning {
+            background-color: #fff5f5;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            border-left: 4px solid #ff6b6b;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, #00f5d4, #00d4f5);
+            color: #333;
+            text-decoration: none;
+            border-radius: 25px;
+            margin-top: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+                margin: 1rem;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            h2 {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1><i class="fas fa-lock"></i> Tutorial Install SSH Server di Debian 11</h1>
+    </header>
+
+    <div class="container">
+        <div class="intro">
+            <p>SSH (Secure Shell) adalah protokol jaringan yang memungkinkan pertukaran data yang aman antara dua komputer. Tutorial ini akan memandu Anda langkah demi langkah dalam menginstal dan mengkonfigurasi SSH Server di Debian 11.</p>
+        </div>
+
+        <div class="requirements">
+            <h3><i class="fas fa-list-ul"></i> Persyaratan</h3>
+            <ul>
+                <li>Debian 11 terinstal di VirtualBox</li>
+                <li>Koneksi internet aktif</li>
+                <li>Akses root atau sudo</li>
+                <li>Basic understanding of terminal commands</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h2><span class="step-number">1</span> Update Sistem</h2>
+            <p>Pertama, update sistem Debian Anda dengan menjalankan perintah berikut:</p>
+            <code>sudo apt update && sudo apt upgrade -y</code>
+        </div>
+
+        <div class="step">
+            <h2><span class="step-number">2</span> Install SSH Server</h2>
+            <p>Install OpenSSH server dengan perintah:</p>
+            <code>sudo apt install openssh-server -y</code>
+            
+            <div class="note">
+                <p><i class="fas fa-info-circle"></i> Setelah instalasi, SSH server akan otomatis dijalankan sebagai service.</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <h2><span class="step-number">3</span> Verifikasi Status SSH</h2>
+            <p>Periksa status SSH service dengan perintah:</p>
+            <code>sudo systemctl status ssh</code>
+            
+            <p>Anda seharusnya melihat status "active (running)"</p>
+        </div>
+
+        <div class="step">
+            <h2><span class="step-number">4</span> Konfigurasi Firewall</h2>
+            <p>Jika Anda menggunakan UFW firewall, izinkan koneksi SSH:</p>
+            <code>sudo ufw allow ssh</code>
+            
+            <div class="warning">
+                <p><i class="fas fa-exclamation-triangle"></i> Pastikan untuk mengizinkan port SSH (22) sebelum mengaktifkan firewall untuk menghindari terkunci dari sistem.</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <h2><span class="step-number">5</span> Konfigurasi SSH</h2>
+            <p>Edit file konfigurasi SSH:</p>
+            <code>sudo nano /etc/ssh/sshd_config</code>
+            
+            <p>Beberapa pengaturan penting yang bisa dimodifikasi:</p>
+            <code>
+Port 22                   # Port default SSH
+PermitRootLogin no        # Menonaktifkan login root
+PasswordAuthentication yes # Mengizinkan autentikasi password
+            </code>
+            
+            <div class="note">
+                <p><i class="fas fa-info-circle"></i> Setelah mengubah konfigurasi, restart service SSH:</p>
+                <code>sudo systemctl restart ssh</code>
+            </div>
+        </div>
+
+        <div class="step">
+            <h2><span class="step-number">6</span> Menghubungkan ke SSH Server</h2>
+            <p>Dari komputer client, gunakan perintah:</p>
+            <code>ssh username@ip_address</code>
+            
+            <p>Contoh:</p>
+            <code>ssh debian@192.168.1.100</code>
+        </div>
+
+        <div class="step">
+            <h2><span class="step-number">7</span> Tips Keamanan</h2>
+            <ul>
+                <li>Gunakan key-based authentication daripada password</li>
+                <li>Ubah port default SSH</li>
+                <li>Batasi akses root</li>
+                <li>Gunakan fail2ban untuk mencegah brute force attacks</li>
+                <li>Regularly update sistem dan packages</li>
+            </ul>
+        </div>
+
+        <div class="note">
+            <h2><i class="fas fa-terminal"></i> Perintah Berguna</h2>
+            <code>
+sudo systemctl start ssh    # Memulai SSH service
+sudo systemctl stop ssh     # Menghentikan SSH service
+sudo systemctl restart ssh  # Restart SSH service
+sudo systemctl enable ssh   # Enable SSH pada startup
+sudo systemctl disable ssh  # Disable SSH pada startup
+            </code>
+        </div>
+
+        <a href="index.html" class="back-button">
+            <i class="fas fa-arrow-left"></i> Kembali ke Beranda
+        </a>
+    </div>
+
+    <script>
+        // Add smooth scrolling to all links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

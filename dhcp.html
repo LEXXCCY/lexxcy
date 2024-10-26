@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Konfigurasi DHCP Server ISC di Debian 11</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #00f5d4, #00d4f5);
+            padding: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #333;
+        }
+
+        .page-title h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .page-title p {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #00f5d4;
+        }
+
+        .section-header i {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            color: #00d4f5;
+        }
+
+        .section-header h2 {
+            color: #333;
+            font-size: 1.3rem;
+        }
+
+        pre {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #00f5d4;
+            overflow-x: auto;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .warning {
+            background-color: #fff3cd;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+            margin: 1rem 0;
+        }
+
+        .note {
+            background-color: #e7f3fe;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #00d4f5;
+            margin: 1rem 0;
+        }
+
+        .back-button {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, #00f5d4, #00d4f5);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .page-title h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">LEXXCY</div>
+    </header>
+
+    <div class="container">
+        <a href="/" class="back-button">
+            <i class="fas fa-arrow-left"></i> Kembali
+        </a>
+
+        <div class="page-title">
+            <h1><i class="fas fa-server"></i> Panduan Konfigurasi DHCP Server ISC</h1>
+            <p>Langkah-langkah instalasi dan konfigurasi DHCP Server di Debian 11</p>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-check-circle"></i>
+                <h2>Persiapan Awal</h2>
+            </div>
+            <div class="note">
+                Pastikan sistem Debian 11 sudah terinstall di VirtualBox dan memiliki dua interface jaringan:
+                <ul>
+                    <li>NAT (untuk akses internet)</li>
+                    <li>Host-only Adapter (untuk jaringan lokal)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-download"></i>
+                <h2>Instalasi DHCP Server</h2>
+            </div>
+            <p>Jalankan perintah berikut untuk menginstall ISC DHCP Server:</p>
+            <pre>sudo apt update
+sudo apt install isc-dhcp-server</pre>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-network-wired"></i>
+                <h2>Konfigurasi Interface</h2>
+            </div>
+            <p>Edit file konfigurasi interface DHCP:</p>
+            <pre>sudo nano /etc/default/isc-dhcp-server</pre>
+            <p>Tambahkan interface yang akan digunakan:</p>
+            <pre>INTERFACESv4="enp0s8"
+INTERFACESv6=""</pre>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-cogs"></i>
+                <h2>Konfigurasi DHCP Server</h2>
+            </div>
+            <p>Edit file konfigurasi utama DHCP:</p>
+            <pre>sudo nano /etc/dhcp/dhcpd.conf</pre>
+            <p>Tambahkan konfigurasi berikut:</p>
+            <pre># Konfigurasi Global
+default-lease-time 600;
+max-lease-time 7200;
+authoritative;
+
+# Deklarasi Subnet
+subnet 192.168.56.0 netmask 255.255.255.0 {
+    range 192.168.56.100 192.168.56.200;
+    option routers 192.168.56.1;
+    option domain-name-servers 8.8.8.8, 8.8.4.4;
+    option domain-name "local.net";
+    option broadcast-address 192.168.56.255;
+}</pre>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-network-wired"></i>
+                <h2>Konfigurasi IP Statis</h2>
+            </div>
+            <p>Edit file konfigurasi network:</p>
+            <pre>sudo nano /etc/network/interfaces</pre>
+            <p>Tambahkan konfigurasi berikut:</p>
+            <pre># Interface untuk Host-only Adapter
+auto enp0s8
+iface enp0s8 inet static
+    address 192.168.56.1
+    netmask 255.255.255.0</pre>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-sync"></i>
+                <h2>Restart Layanan</h2>
+            </div>
+            <p>Jalankan perintah berikut:</p>
+            <pre>sudo systemctl restart networking
+sudo systemctl restart isc-dhcp-server</pre>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-search"></i>
+                <h2>Verifikasi dan Monitoring</h2>
+            </div>
+            <p>Cek status DHCP server:</p>
+            <pre>sudo systemctl status isc-dhcp-server</pre>
+            <p>Untuk melihat lease DHCP yang aktif:</p>
+            <pre>sudo cat /var/lib/dhcp/dhcpd.leases</pre>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h2>Catatan Penting</h2>
+            </div>
+            <div class="warning">
+                <ul>
+                    <li>Pastikan tidak ada konflik IP address di jaringan</li>
+                    <li>Backup file konfigurasi sebelum melakukan perubahan</li>
+                    <li>Sesuaikan range IP dan subnet sesuai kebutuhan jaringan Anda</li>
+                    <li>Pastikan firewall tidak memblokir port DHCP (67/UDP dan 68/UDP)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-bug"></i>
+                <h2>Troubleshooting</h2>
+            </div>
+            <p>Jika DHCP server tidak berjalan, cek log dengan perintah:</p>
+            <pre>sudo journalctl -u isc-dhcp-server</pre>
+            <div class="note">
+                <p>Untuk konfigurasi lebih lanjut atau masalah khusus, silakan merujuk ke dokumentasi resmi ISC DHCP atau forum Debian.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('scroll', function() {
+            const backButton = document.querySelector('.back-button');
+            if (window.scrollY > 50) {
+                backButton.style.backgroundColor = '#654321';
+            } else {
+                backButton.style.background = 'linear-gradient(135deg, #00f5d4, #00d4f5)';
+            }
+        });
+    </script>
+</body>
+</html>
