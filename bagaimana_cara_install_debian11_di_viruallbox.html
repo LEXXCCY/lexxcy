@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Panduan lengkap cara menginstal Debian 11 di Oracle VirtualBox">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
@@ -186,7 +187,7 @@
 </head>
 <body>
     <header class="header">
-        <div class="logo">LEXXCY</div>
+        <div class="logo"><a href="#" style="text-decoration: none; color: inherit;">LEXXCY</a></div>
     </header>
 
     <div class="container">
@@ -316,12 +317,13 @@
         </div>
     </div>
 
-    <a href="#" class="back-button" onclick="goBack()">Kembali</a>
+    <a href="#" id="back-button" class="back-button">Kembali</a>
 
     <script>
-        function goBack() {
-            window.history.back();
-        }
+        document.getElementById('back-button').onclick = function(event) {
+            event.preventDefault(); // Prevent default anchor behavior
+            window.history.back(); // Go back to the previous page
+        };
     </script>
 </body>
 </html>
