@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konversi ROT13</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #00f5d4, #00d4f5);
+            padding: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        .page-title h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .page-title p {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .converter-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .converter-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #00f5d4;
+        }
+
+        .card-header i {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            color: #00d4f5;
+        }
+
+        .card-header h2 {
+            color: #333;
+            font-size: 1.3rem;
+        }
+
+        .text-area-container {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            min-height: 150px;
+            resize: vertical;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+
+        textarea:focus {
+            border-color: #00f5d4;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0,245,212,0.2);
+        }
+
+        .char-counter {
+            position: absolute;
+            bottom: 1.5rem;
+            right: 1rem;
+            font-size: 0.8rem;
+            color: #666;
+            background: rgba(255,255,255,0.9);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        button {
+            flex: 1;
+            padding: 1rem;
+            background: linear-gradient(135deg, #00f5d4, #00d4f5);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,212,245,0.3);
+        }
+
+        .result-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #00f5d4;
+        }
+
+        .result-label {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .result-value {
+            color: #333;
+            font-size: 1.1rem;
+            word-break: break-all;
+            white-space: pre-wrap;
+            font-family: monospace;
+            background: white;
+            padding: 1rem;
+            border-radius: 4px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .copy-btn {
+            background: transparent;
+            border: none;
+            color: #00d4f5;
+            cursor: pointer;
+            padding: 0.2rem 0.5rem;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            color: #00f5d4;
+        }
+
+        .back-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, #00f5d4, #00d4f5);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .page-title h1 {
+                font-size: 2rem;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">LEXXCY</div>
+    </header>
+
+    <div class="container">
+        <div class="page-title">
+            <h1><i class="fas fa-exchange-alt"></i> Konversi ROT13</h1>
+            <p>Enkripsi dan dekripsi teks menggunakan algoritma ROT13</p>
+        </div>
+
+        <div class="converter-card">
+            <div class="card-header">
+                <i class="fas fa-keyboard"></i>
+                <h2>Masukkan Teks</h2>
+            </div>
+            <div class="text-area-container">
+                <textarea 
+                    id="inputText" 
+                    placeholder="Ketik atau tempel teks di sini..."
+                    maxlength="5000"
+                ></textarea>
+                <div class="char-counter">
+                    <span id="charCount">0</span>/5000 karakter
+                </div>
+            </div>
+            <div class="button-group">
+                <button onclick="convertToRot13()">
+                    <i class="fas fa-lock"></i>
+                    Enkripsi ROT13
+                </button>
+                <button onclick="clearText()">
+                    <i class="fas fa-eraser"></i>
+                    Bersihkan
+                </button>
+            </div>
+            <div class="result-card">
+                <div class="result-label">
+                    <span>Hasil Konversi:</span>
+                    <button class="copy-btn" onclick="copyResult()">
+                        <i class="fas fa-copy"></i> Salin
+                    </button>
+                </div>
+                <div class="result-value" id="rot13Result">-</div>
+            </div>
+        </div>
+
+        <a href="/" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+            Kembali
+        </a>
+    </div>
+
+    <script>
+        function convertToRot13() {
+            const input = document.getElementById("inputText").value;
+            let result = "";
+
+            for (let i = 0; i < input.length; i++) {
+                const char = input[i];
+                if (char >= 'a' && char <= 'z') {
+                    result += String.fromCharCode(((char.charCodeAt(0) - 97 + 13) % 26) + 97);
+                } else if (char >= 'A' && char <= 'Z') {
+                    result += String.fromCharCode(((char.charCodeAt(0) - 65 + 13) % 26) + 65);
+                } else {
+                    result += char;
+                }
+            }
+
+            document.getElementById("rot13Result").innerText = result || "-";
+        }
+
+        function clearText() {
+            document.getElementById("inputText").value = "";
+            document.getElementById("rot13Result").innerText = "-";
+            document.getElementById("charCount").innerText = "0";
+        }
+
+        function copyResult() {
+            const result = document.getElementById("rot13Result").innerText;
+            if (result !== "-") {
+                navigator.clipboard.writeText(result).then(() => {
+                    const copyBtn = document.querySelector(".copy-btn");
+                    const originalText = copyBtn.innerHTML;
+                    copyBtn.innerHTML = '<i class="fas fa-check"></i> Tersalin!';
+                    setTimeout(() => {
+                        copyBtn.innerHTML = originalText;
+                    }, 2000);
+                });
+            }
+        }
+
+        // Character counter
+        document.getElementById("inputText").addEventListener("input", function(e) {
+            const charCount = e.target.value.length;
+            document.getElementById("charCount").innerText = charCount;
+        });
+    </script>
+</body>
+</html>

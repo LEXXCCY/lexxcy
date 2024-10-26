@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tentang Kami - Portal TKJ</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .about-section {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #2980b9, #3498db);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid #f0f0f0;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            color: #2980b9;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.2rem;
+        }
+
+        .content {
+            margin-bottom: 3rem;
+            padding: 0 1rem;
+        }
+
+        .content p {
+            margin-bottom: 1.5rem;
+            text-align: justify;
+            font-size: 1.1rem;
+            color: #555;
+        }
+
+        .offerings {
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 3rem;
+            border: 1px solid #eee;
+        }
+
+        .offerings h2 {
+            color: #2980b9;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .offerings h2 i {
+            font-size: 1.5rem;
+        }
+
+        .offerings-list {
+            list-style: none;
+        }
+
+        .offerings-list li {
+            margin-bottom: 1.5rem;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .offerings-list li i {
+            position: absolute;
+            left: 0;
+            top: 4px;
+            color: #2980b9;
+        }
+
+        .mission {
+            background: linear-gradient(135deg, #2980b9 0%, #3498db 100%);
+            color: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(41, 128, 185, 0.3);
+        }
+
+        .mission h2 {
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .highlight {
+            font-weight: bold;
+            color: #2980b9;
+        }
+
+        .back-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #2980b9;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 15px rgba(41, 128, 185, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            background: #3498db;
+            box-shadow: 0 6px 20px rgba(41, 128, 185, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .about-section {
+                padding: 2rem 1.5rem;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .mission {
+                padding: 1.5rem;
+            }
+
+            .back-button {
+                bottom: 1rem;
+                right: 1rem;
+                padding: 0.8rem 1.5rem;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="about-section fade-in">
+            <header class="header">
+                <h1><i class="fas fa-network-wired"></i> Tentang Kami</h1>
+                <p>Portal Pembelajaran Teknik Komputer dan Jaringan</p>
+            </header>
+
+            <div class="content">
+                <p>
+                    <i class="fas fa-handshake"></i> Selamat datang di TKJ Learning Hub, platform yang didedikasikan untuk memberikan informasi, 
+                    tutorial, dan tools seputar dunia <span class="highlight">Teknik Komputer dan Jaringan</span> (TKJ). 
+                    Kami hadir untuk membantu para pelajar, profesional, dan siapa saja yang tertarik mendalami 
+                    bidang jaringan komputer dan teknologi informasi.
+                </p>
+                <p>
+                    <i class="fas fa-book-reader"></i> Di sini, Anda akan menemukan berbagai panduan langkah demi langkah, tips praktis, dan 
+                    solusi dari permasalahan yang sering ditemui di dunia TKJ. Kami juga menyediakan berbagai 
+                    alat bantu (tools) yang dapat digunakan untuk memudahkan pekerjaan dan pembelajaran seputar 
+                    jaringan, sistem operasi, perangkat keras, hingga pemrograman dasar.
+                </p>
+            </div>
+
+            <div class="offerings">
+                <h2><i class="fas fa-gift"></i> Apa yang Kami Tawarkan?</h2>
+                <ul class="offerings-list">
+                    <li>
+                        <i class="fas fa-graduation-cap"></i>
+                        <strong>Tutorial Lengkap:</strong> Mulai dari dasar hingga tingkat lanjut, 
+                        kami menyediakan tutorial yang mudah dipahami untuk membantu Anda memahami 
+                        berbagai konsep dalam TKJ.
+                    </li>
+                    <li>
+                        <i class="fas fa-newspaper"></i>
+                        <strong>Artikel Informatif:</strong> Kami menyajikan artikel terbaru seputar 
+                        tren teknologi, perkembangan dunia jaringan, serta tips dan trik untuk 
+                        meningkatkan keterampilan Anda.
+                    </li>
+                    <li>
+                        <i class="fas fa-tools"></i>
+                        <strong>Tools Bermanfaat:</strong> Kami menyediakan berbagai alat online yang 
+                        dapat Anda gunakan untuk memperbaiki jaringan, melakukan troubleshooting, 
+                        hingga pengujian keamanan jaringan.
+                    </li>
+                </ul>
+            </div>
+
+            <div class="mission">
+                <h2><i class="fas fa-flag"></i> Misi Kami</h2>
+                <p>
+                    Misi kami adalah menjadi sumber daya terpercaya dan lengkap bagi semua orang yang 
+                    ingin mempelajari atau bekerja di bidang TKJ. Dengan konten yang selalu diperbarui, 
+                    kami berkomitmen untuk membantu Anda menjadi ahli dalam dunia teknologi dan 
+                    jaringan komputer.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <a href="/index.html" class="back-button">
+        <i class="fas fa-arrow-left"></i> Kembali
+    </a>
+</body>
+</html>

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #00f5d4, #00d4f5);
+            padding: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #333;
+        }
+
+        .page-title h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .page-title p {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .command-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .category {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #00f5d4;
+        }
+
+        .category-header i {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            color: #00d4f5;
+        }
+
+        .category-header h2 {
+            color: #333;
+            font-size: 1.3rem;
+        }
+
+        .command-list {
+            list-style: none;
+        }
+
+        .command-item {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #00f5d4;
+        }
+
+        .command-name {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .command-description {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .command-example {
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            background: #e9ecef;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .back-button {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, #00f5d4, #00d4f5); /* Sesuai dengan tema */
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        body.scrolled .back-button {
+            background: linear-gradient(135deg, #654321, #876543); /* Warna berubah saat di-scroll */
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .command-categories {
+                grid-template-columns: 1fr;
+            }
+            
+            .page-title h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">LEXXCY</div>
+    </header>
+
+    <div class="container">
+        <a href="/" class="back-button">
+            <i class="fas fa-arrow-left"></i> Kembali
+        </a>
+
+        <div class="page-title">
+            <h1><i class="fas fa-terminal"></i> Perintah Dasar Debian 11</h1>
+            <p>Pelajari perintah-perintah dasar untuk administrasi sistem Debian 11</p>
+        </div>
+
+        <div class="command-categories">
+            <!-- File System Commands -->
+            <div class="category">
+                <div class="category-header">
+                    <i class="fas fa-folder"></i>
+                    <h2>Manajemen File dan Direktori</h2>
+                </div>
+                <ul class="command-list">
+                    <li class="command-item">
+                        <span class="command-name">ls</span>
+                        <p class="command-description">Menampilkan daftar file dan direktori</p>
+                        <div class="command-example">$ ls -la</div>
+                    </li>
+                    <li class="command-item">
+                        <span class="command-name">cd</span>
+                        <p class="command-description">Berpindah antar direktori</p>
+                        <div class="command-example">$ cd /home/user</div>
+                    </li>
+                    <li class="command-item">
+                        <span class="command-name">mkdir</span>
+                        <p class="command-description">Membuat direktori baru</p>
+                        <div class="command-example">$ mkdir folder_baru</div>
+                    </li>
+                    <li class="command-item">
+                        <span class="command-name">rm</span>
+                        <p class="command-description">Menghapus file atau direktori</p>
+                        <div class="command-example">$ rm -rf folder_lama</div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- System Commands -->
+            <div class="category">
+                <div class="category-header">
+                    <i class="fas fa-cogs"></i>
+                    <h2>Manajemen Sistem</h2>
+                </div>
+                <ul class="command-list">
+                    <li class="command-item">
+                        <span class="command-name">apt update</span>
+                        <p class="command-description">Memperbarui daftar paket</p>
+                        <div class="command-example">$ sudo apt update</div>
+                    </li>
+                    <li class="command-item">
+                        <span class="command-name">apt install</span>
+                        <p class="command-description">Menginstal paket baru</p>
+                        <div class="command-example">$ sudo apt install nama_paket</div>
+                    </li>
+                    <li class="command-item">
+                        <span class="command-name">systemctl</span>
+                        <p class="command-description">Mengontrol layanan sistem</p>
+                        <div class="command-example">$ sudo systemctl start apache2</div>
+                    </li>
+                    <li class="command-item">
+                        <span class="command-name">reboot</span>
+                        <p class="command-description">Memulai ulang sistem</p>
+                        <div class="command-example">$ sudo reboot</div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Network Commands -->
+            <div class="category">
+                <div class="category-header">
+                    <i class="fas fa-network-wired"></i>
+                    <h2>Manajemen Jaringan</h2>
+                </div>
+                <ul class="command-list">
+                    <li class="command-item">
+                        <span class="command-name">ip addr</span>
+                        <p class="command-description">Menampilkan konfigurasi IP</p>
+                        <div class="command-example">$ ip addr show</div>
+                    </li>
+                    <li class="command-item">
+                        <span class="command-name">ping</span>
+                        <p class="command-description">Menguji konektivitas jaringan</p>
+                        <div class="command-example">$ ping -c 4 google.com</div>
+                    </li>
+                    <li class="command-item">
+                        <span class="command-name">netstat</span>
+                        <p class="command-description">Menampilkan koneksi jaringan</p>
+                        <div class="command-example">$ netstat -tupln</div>
+                    </li>
+                    <li class="command-item">
+                        <span class="command-name">ssh</span>
+                        <p class="command-description">Koneksi remote secure shell</p>
+                        <div class="command-example">$ ssh user@host</div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- User Management -->
+            <div class="category">
+                <div class="category-header">
+                    <i class="fas fa-users"></i>
+                    <h2>Manajemen Pengguna</h2>
+                </div>
+                <ul class="command-list">
+                    <li class="command-item">
+                        <span class="command-name">useradd</span>
+                        <p class="command-description">Membuat pengguna baru</p>
+                        <div class="command-example">$ sudo useradd username</div>
+                    </li>
+                    <li class="command-item">
+                        <span class="command-name">passwd</span>
+                        <p class="command-description">Mengubah password pengguna</p>
+                        <div class="command-example">$ sudo passwd username</div>
+                    </li>
+                    <li class="command-item">
+                        <span class="command-name">usermod</span>
+                        <p class="command-description">Memodifikasi akun pengguna</p>
+                        <div class="command-example">$ sudo usermod -aG sudo username</div>
+                    </li>
+                    <li class="command-item">
+                        <span class="command-name">who</span>
+                        <p class="command-description">Menampilkan pengguna yang login</p>
+                        <div class="command-example">$ who</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('scroll', function() {
+            const body = document.querySelector('body');
+            if (window.scrollY > 50) {
+                body.classList.add('scrolled');
+            } else {
+                body.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>

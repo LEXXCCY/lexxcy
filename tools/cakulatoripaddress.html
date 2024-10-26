@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP Block Calculator Pro</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #00f5d4, #00d4f5);
+            padding: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #333;
+        }
+
+        .page-title h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .page-title p {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .calculator-section {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .input-group {
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #00d4f5;
+            box-shadow: 0 0 0 3px rgba(0,212,245,0.1);
+        }
+
+        .info-text {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        .cidr-info {
+            background: #e3f2fd;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            border-left: 4px solid #00d4f5;
+        }
+
+        button {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #00f5d4, #00d4f5);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,212,245,0.3);
+        }
+
+        .error {
+            background: #ffe3e3;
+            color: #d63031;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .results-container {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .summary-box {
+            background: linear-gradient(135deg, #00f5d4, #00d4f5);
+            padding: 1.5rem;
+            border-radius: 12px;
+            color: white;
+            margin-bottom: 1.5rem;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        th {
+            background: linear-gradient(135deg, #00f5d4, #00d4f5);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .back-button {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, #00f5d4, #00d4f5);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .page-title h1 {
+                font-size: 2rem;
+            }
+            
+            .calculator-section {
+                grid-template-columns: 1fr;
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">LEXXCY</div>
+    </header>
+
+    <div class="container">
+        <a href="/" class="back-button">
+            <i class="fas fa-arrow-left"></i> Kembali
+        </a>
+
+        <div class="page-title">
+            <h1><i class="fas fa-network-wired"></i> IP Block Calculator Pro</h1>
+            <p>Kalkulasi subnet menggunakan CIDR dengan mudah dan cepat</p>
+        </div>
+
+        <div class="calculator-section">
+            <div class="input-group">
+                <div class="form-group">
+                    <label for="startIP"><i class="fas fa-laptop"></i> IP Address Awal</label>
+                    <input type="text" id="startIP" placeholder="Contoh: 0.0.0.0" value="0.0.0.0">
+                </div>
+
+                <div class="form-group">
+                    <label for="numBlocks"><i class="fas fa-cubes"></i> Jumlah Block</label>
+                    <input type="number" id="numBlocks" placeholder="Masukkan jumlah block" min="1">
+                </div>
+
+                <div class="form-group">
+                    <label for="cidr"><i class="fas fa-sitemap"></i> CIDR (Subnet Mask)</label>
+                    <input type="number" id="cidr" placeholder="Contoh: 24" min="0" max="32">
+                    <div class="info-text">Masukkan nilai CIDR antara 0-32 (contoh: /24 untuk 255.255.255.0)</div>
+                </div>
+
+                <div class="cidr-info">
+                    <strong>Referensi CIDR umum:</strong><br>
+                    /24 = 256 IP (255.255.255.0)<br>
+                    /25 = 128 IP (255.255.255.128)<br>
+                    /26 = 64 IP (255.255.255.192)<br>
+                    /27 = 32 IP (255.255.255.224)<br>
+                    /28 = 16 IP (255.255.255.240)<br>
+                    /29 = 8 IP (255.255.255.248)<br>
+                    /30 = 4 IP (255.255.255.252)
+                </div>
+
+                <button onclick="calculateBlocks()"><i class="fas fa-calculator"></i> Hitung Blocks</button>
+                <div class="error" id="error"></div>
+            </div>
+
+            <div id="result"></div>
+        </div>
+
+        <div id="blocks" class="results-container"></div>
+    </div>
+
+    <script>
+        function calculateBlocks() {
+            const startIP = document.getElementById('startIP').value;
+            const numBlocks = parseInt(document.getElementById('numBlocks').value);
+            const cidr = parseInt(document.getElementById('cidr').value);
+            const error = document.getElementById('error');
+            const result = document.getElementById('result');
+            const blocksDiv = document.getElementById('blocks');
+            
+            error.style.display = 'none';
+            result.innerHTML = '';
+            blocksDiv.innerHTML = '';
+            
+            if (!validateIP(startIP)) {
+                error.innerHTML = '<i class="fas fa-exclamation-triangle"></i> IP Address awal tidak valid!';
+                error.style.display = 'block';
+                return;
+            }
+            
+            if (isNaN(numBlocks) || numBlocks < 1) {
+                error.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Jumlah block harus lebih dari 0!';
+                error.style.display = 'block';
+                return;
+            }
+            
+            if (isNaN(cidr) || cidr < 0 || cidr > 32) {
+                error.innerHTML = '<i class="fas fa-exclamation-triangle"></i> CIDR harus antara 0 dan 32!';
+                error.style.display = 'block';
+                return;
+            }
+
+            const blockSize = Math.pow(2, 32 - cidr);
+            let currentIP = ipToNumber(startIP);
+            
+            result.innerHTML = `
+                <div class="summary-box">
+                    <h3><i class="fas fa-chart-pie"></i> Ringkasan Kalkulasi</h3>
+                    <div class="summary-item">
+                        <span>Total Blocks:</span>
+                        <strong>${numBlocks}</strong>
+                    </div>
+                    <div class="summary-item">
+                        <span>CIDR:</span>
+                        <strong>/${cidr}</strong>
+                    </div>
+                    <div class="summary-item">
+                        <span>Subnet Mask:</span>
+                        <strong>${calculatePrefix(cidr)}</strong>
+                    </div>
+                    <div class="summary-item">
+                        <span>IP per Block:</span>
+                        <strong>${blockSize}</strong>
+                    </div>
+                    <div class="summary-item">
+                        <span>Usable Hosts per Block:</span>
+                        <strong>${blockSize - 2}</strong>
+                    </div>
+                </div>
+            `;
+            
+            let tableHTML = `
+                <table>
+                    <tr>
+                        <th>Block #</th>
+                        <th>Network Address</th>
+                        <th>First Usable</th>
+                        <th>Last Usable</th>
+                        <th>Broadcast</th>
+                        <th>Total IPs</th>
+                    </tr>
+            `;
+            
+            for (let i = 0; i < numBlocks; i++) {
+                const networkAddr = numberToIP(currentIP);
+                const firstUsable = numberToIP(currentIP + 1);
+                const lastUsable = numberToIP(currentIP + blockSize - 2);
+                const broadcast = numberToIP(currentIP + blockSize - 1);
+                
+                tableHTML += `
+                    <tr>
+                        <td><strong>${i + 1}</strong></td>
+                        <td>${networkAddr}/${cidr}</td>
+                        <td>${firstUsable}</td>
+                        <td>${lastUsable}</td>
+                        <td>${broadcast}</td>
+                        <td>${blockSize}</td>
+                    </tr>
+                `;
+                
+                currentIP += blockSize;
+            }
+            
+            tableHTML += '</table>';
+            blocksDiv.innerHTML = tableHTML;
+        }
+
+        function validateIP(ip) {
+            const regex = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+            return regex.test(ip);
+        }
+
+        function ipToNumber(ip) {
+            return ip.split('.').reduce((total, part) => (total << 8) + parseInt(part), 0) >>> 0;
+        }
+
+        function numberToIP(num) {
+            return [
+                (num >>> 24) & 255,
+                (num >>> 16) & 255,
+                (num >>> 8) & 255,
+                num & 255
+            ].join('.');
+        }
+
+        function calculatePrefix(cidr) {
+            const fullOctets = Math.floor(cidr / 8);
+            const remainingBits = cidr % 8;
+            const octets = [];
+            
+                for (let i = 0; i < 4; i++) {
+        if (i < fullOctets) {
+            octets.push(255);
+        } else if (i === fullOctets && remainingBits > 0) {
+            octets.push(256 - Math.pow(2, 8 - remainingBits));
+        } else {
+            octets.push(0);
+        }
+    }
+    
+    return octets.join('.');
+}
+
+function goBack() {
+    window.history.back();
+}
+</script>
+
+</body>
+</html>

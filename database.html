@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial Database Server di Debian 11</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #00f5d4, #00d4f5);
+            padding: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #333;
+        }
+
+        .page-title h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .page-title p {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #00f5d4;
+        }
+
+        .section-header i {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            color: #00d4f5;
+        }
+
+        .section-header h2 {
+            color: #333;
+            font-size: 1.3rem;
+        }
+
+        pre {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #00f5d4;
+            overflow-x: auto;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .note {
+            background-color: #fff3cd;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+            margin: 1rem 0;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 1rem;
+        }
+
+        ul li {
+            margin: 0.5rem 0;
+            position: relative;
+        }
+
+        ul li:before {
+            content: "\f00c";
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            margin-right: 0.5rem;
+            color: #00d4f5;
+        }
+
+        .back-button {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, #00f5d4, #00d4f5);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .page-title h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">LEXXCY</div>
+    </header>
+
+    <div class="container">
+        <a href="/" class="back-button">
+            <i class="fas fa-arrow-left"></i> Kembali
+        </a>
+
+        <div class="page-title">
+            <h1><i class="fas fa-database"></i> Tutorial Database Server</h1>
+            <p>Panduan lengkap instalasi dan konfigurasi Database Server di Debian 11</p>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-list"></i>
+                <h2>Persyaratan Sistem</h2>
+            </div>
+            <ul>
+                <li>Debian 11 (Bullseye) terinstal</li>
+                <li>Koneksi internet aktif</li>
+                <li>Akses root atau sudo</li>
+                <li>Minimal RAM 1GB</li>
+                <li>Ruang disk minimal 10GB</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-terminal"></i>
+                <h2>Update Sistem</h2>
+            </div>
+            <p>Pertama, update sistem Debian:</p>
+            <pre>
+sudo apt update
+sudo apt upgrade -y</pre>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-download"></i>
+                <h2>Instalasi Database Server</h2>
+            </div>
+            <p>Pilih salah satu database server:</p>
+            
+            <h3>1. MariaDB</h3>
+            <pre>
+sudo apt install mariadb-server mariadb-client -y</pre>
+            
+            <h3>2. PostgreSQL</h3>
+            <pre>
+sudo apt install postgresql postgresql-contrib -y</pre>
+            
+            <h3>3. MongoDB</h3>
+            <pre>
+# Tambahkan repository MongoDB
+wget -qO - https://www.mongodb.org/static/pgp/server-5.0.asc | sudo apt-key add -
+echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/5.0 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-5.0.list
+sudo apt update
+sudo apt install mongodb-org -y</pre>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-shield-alt"></i>
+                <h2>Konfigurasi Keamanan</h2>
+            </div>
+            
+            <h3>MariaDB</h3>
+            <pre>sudo mysql_secure_installation</pre>
+            
+            <h3>PostgreSQL</h3>
+            <pre>
+sudo -u postgres psql
+ALTER USER postgres WITH PASSWORD 'your_password';</pre>
+            
+            <h3>MongoDB</h3>
+            <pre>
+use admin
+db.createUser({
+  user: "adminuser",
+  pwd: "secure_password",
+  roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]
+})</pre>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-cogs"></i>
+                <h2>Manajemen Service</h2>
+            </div>
+            <p>Perintah dasar untuk mengelola service database:</p>
+            <pre>
+# MariaDB
+sudo systemctl start mariadb
+sudo systemctl enable mariadb
+sudo systemctl status mariadb
+
+# PostgreSQL
+sudo systemctl start postgresql
+sudo systemctl enable postgresql
+sudo systemctl status postgresql
+
+# MongoDB
+sudo systemctl start mongod
+sudo systemctl enable mongod
+sudo systemctl status mongod</pre>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-network-wired"></i>
+                <h2>Konfigurasi Remote Access</h2>
+            </div>
+            <div class="note">
+                <p>Perhatian: Membuka akses remote dapat meningkatkan risiko keamanan. Pastikan untuk menggunakan firewall dan password yang kuat.</p>
+            </div>
+            
+            <h3>MariaDB</h3>
+            <pre>
+sudo nano /etc/mysql/mariadb.conf.d/50-server.cnf
+# Ubah bind-address = 0.0.0.0</pre>
+            
+            <h3>PostgreSQL</h3>
+            <pre>
+sudo nano /etc/postgresql/13/main/postgresql.conf
+# Ubah listen_addresses = '*'
+
+sudo nano /etc/postgresql/13/main/pg_hba.conf
+# Tambahkan: host all all 0.0.0.0/0 md5</pre>
+            
+            <h3>MongoDB</h3>
+            <pre>
+sudo nano /etc/mongod.conf
+# Ubah bindIp: 0.0.0.0</pre>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-lock"></i>
+                <h2>Firewall</h2>
+            </div>
+            <pre>
+# MariaDB (3306)
+sudo ufw allow 3306/tcp
+
+# PostgreSQL (5432)
+sudo ufw allow 5432/tcp
+
+# MongoDB (27017)
+sudo ufw allow 27017/tcp</pre>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-clock"></i>
+                <h2>Backup dan Restore</h2>
+            </div>
+            
+            <h3>MariaDB</h3>
+            <pre>
+# Backup
+mysqldump -u root -p database_name > backup.sql
+
+# Restore
+mysql -u root -p database_name < backup.sql</pre>
+            
+            <h3>PostgreSQL</h3>
+            <pre>
+# Backup
+pg_dump -U postgres database_name > backup.sql
+
+# Restore
+psql -U postgres database_name < backup.sql</pre>
+            
+            <h3>MongoDB</h3>
+            <pre>
+# Backup
+mongodump --out /backup/mongobackup/
+
+# Restore
+mongorestore /backup/mongobackup/</pre>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h2>Troubleshooting</h2>
+            </div>
+            <div class="note">
+                <p>Log files location:</p>
+                <ul>
+                    <li>MariaDB: /var/log/mysql/error.log</li>
+                    <li>PostgreSQL: /var/log/postgresql/postgresql-13-main.log</li>
+                    <li>MongoDB: /var/log/mongodb/mongod.log</li>
+                </ul>
+            </div>
+            <p>Common fixes:</p>
+            <pre>
+# Fix permissions
+sudo chown -R mysql:mysql /var/lib/mysql
+sudo chown -R postgres:postgres /var/lib/postgresql
+sudo chown -R mongodb:mongodb /var/lib/mongodb
+
+# Reset admin password
+# MariaDB
+sudo mysqld_safe --skip-grant-tables &
+# PostgreSQL
+sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'new_password';"
+# MongoDB
+use admin
+db.changeUserPassword("adminuser", "new_password")</pre>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('scroll', function() {
+            const backButton = document.querySelector('.back-button');
+            if (window.scrollY > 50) {
+                backButton.style.backgroundColor = '#654321';
+            } else {
+                backButton.style.background = 'linear-gradient(135deg, #00f5d4, #00d4f5)';
+            }
+        });
+    </script>
+</body>
+</html>

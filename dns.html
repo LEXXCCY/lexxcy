@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Instalasi DNS Server di Debian 11</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #00f5d4, #00d4f5);
+            padding: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #333;
+        }
+
+        .page-title h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .page-title p {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #00f5d4;
+        }
+
+        .section-header i {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            color: #00d4f5;
+        }
+
+        .section-header h2 {
+            color: #333;
+            font-size: 1.3rem;
+        }
+
+        pre {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #00f5d4;
+            overflow-x: auto;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .note {
+            background-color: #fff3cd;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+            margin: 1rem 0;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 1rem;
+        }
+
+        ul li {
+            margin: 0.5rem 0;
+            position: relative;
+        }
+
+        ul li:before {
+            content: "\f00c";
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            margin-right: 0.5rem;
+            color: #00d4f5;
+        }
+
+        .back-button {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, #00f5d4, #00d4f5);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .page-title h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">LEXXCY</div>
+    </header>
+
+    <div class="container">
+        <a href="/" class="back-button">
+            <i class="fas fa-arrow-left"></i> Kembali
+        </a>
+
+        <div class="page-title">
+            <h1><i class="fas fa-server"></i> Panduan Instalasi DNS Server</h1>
+            <p>Langkah-langkah instalasi dan konfigurasi BIND9 DNS Server di Debian 11</p>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-check-circle"></i>
+                <h2>Persiapan Awal</h2>
+            </div>
+            <p>Pastikan sistem Debian 11 sudah terinstal dan terhubung ke internet.</p>
+            <pre>
+# Update sistem
+sudo apt update
+sudo apt upgrade -y</pre>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-download"></i>
+                <h2>Instalasi BIND9</h2>
+            </div>
+            <pre>
+# Install BIND9 dan utilities
+sudo apt install bind9 bind9utils bind9-doc dnsutils -y</pre>
+            <div class="note">
+                BIND9 adalah DNS server yang paling banyak digunakan di internet.
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-cogs"></i>
+                <h2>Konfigurasi Dasar BIND9</h2>
+            </div>
+            <p>Edit file konfigurasi utama:</p>
+            <pre>
+sudo nano /etc/bind/named.conf.options</pre>
+            <p>Tambahkan konfigurasi berikut:</p>
+            <pre>
+options {
+        directory "/var/cache/bind";
+        
+        forwarders {
+                8.8.8.8;
+                8.8.4.4;
+        };
+
+        dnssec-validation auto;
+        auth-nxdomain no;    # conform to RFC1035
+        listen-on-v6 { any; };
+};</pre>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-globe"></i>
+                <h2>Membuat Forward Zone</h2>
+            </div>
+            <p>Edit file konfigurasi zona:</p>
+            <pre>sudo nano /etc/bind/named.conf.local</pre>
+            <p>Tambahkan zona baru:</p>
+            <pre>
+zone "example.com" {
+        type master;
+        file "/etc/bind/zones/db.example.com";
+        allow-transfer { none; };
+};
+</pre>
+            <p>Buat file zona:</p>
+            <pre>
+# Buat direktori zones
+sudo mkdir /etc/bind/zones
+
+# Salin template zona
+sudo cp /etc/bind/db.local /etc/bind/zones/db.example.com
+
+# Edit file zona
+sudo nano /etc/bind/zones/db.example.com</pre>
+            <p>Contoh isi file zona:</p>
+            <pre>
+$TTL    604800
+@       IN      SOA     ns1.example.com. admin.example.com. (
+                     2023100901         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      ns1.example.com.
+@       IN      A       192.168.1.10
+ns1     IN      A       192.168.1.10
+www     IN      A       192.168.1.10
+mail    IN      A       192.168.1.10</pre>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-exchange-alt"></i>
+                <h2>Membuat Reverse Zone</h2>
+            </div>
+            <p>Tambahkan reverse zone di named.conf.local:</p>
+            <pre>
+zone "1.168.192.in-addr.arpa" {
+        type master;
+        file "/etc/bind/zones/db.192.168.1";
+};
+</pre>
+            <p>Buat file reverse zone:</p>
+            <pre>
+sudo cp /etc/bind/db.127 /etc/bind/zones/db.192.168.1
+sudo nano /etc/bind/zones/db.192.168.1</pre>
+            <p>Contoh isi reverse zone:</p>
+            <pre>
+$TTL    604800
+@       IN      SOA     ns1.example.com. admin.example.com. (
+                     2023100901         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      ns1.example.com.
+10      IN      PTR     ns1.example.com.</pre>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-shield-alt"></i>
+                <h2>Pengaturan Firewall</h2>
+            </div>
+            <pre>
+# Izinkan port DNS (53)
+sudo ufw allow 53
+sudo ufw status</pre>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-play-circle"></i>
+                <h2>Menjalankan Layanan</h2>
+            </div>
+            <pre>
+# Cek konfigurasi BIND
+sudo named-checkconf
+sudo named-checkzone example.com /etc/bind/zones/db.example.com
+sudo named-checkzone 1.168.192.in-addr.arpa /etc/bind/zones/db.192.168.1
+
+# Restart BIND9
+sudo systemctl restart bind9
+
+# Cek status
+sudo systemctl status bind9</pre>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-check"></i>
+                <h2>Pengujian DNS Server</h2>
+            </div>
+            <pre>
+# Test menggunakan dig
+dig @localhost example.com
+
+# Test menggunakan nslookup
+nslookup example.com localhost
+
+# Test reverse lookup
+dig -x 192.168.1.10 @localhost</pre>
+            <div class="note">
+                <p>Pastikan untuk mengubah konfigurasi DNS client untuk menggunakan DNS server baru:</p>
+                <pre>sudo nano /etc/resolv.conf</pre>
+                <p>Tambahkan:</p>
+                <pre>nameserver 192.168.1.10</pre>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <i class="fas fa-bug"></i>
+                <h2>Troubleshooting</h2>
+            </div>
+            <p>Cek log DNS server:</p>
+            <pre>sudo tail -f /var/log/syslog | grep named</pre>
+            
+            <div class="note">
+                <p>Hal yang perlu diperhatikan:</p>
+                <ul>
+                    <li>Pastikan semua file zona memiliki permission yang benar</li>
+                    <li>Periksa serial number setiap kali mengubah zona</li>
+                    <li>Verifikasi syntax konfigurasi dengan named-checkconf</li>
+                    <li>Pastikan tidak ada konflik port 53</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('scroll', function() {
+            const backButton = document.querySelector('.back-button');
+            if (window.scrollY > 50) {
+                backButton.style.backgroundColor = '#654321';
+            } else {
+                backButton.style.background = 'linear-gradient(135deg, #00f5d4, #00d4f5)';
+            }
+        });
+    </script>
+</body>
+</html>
