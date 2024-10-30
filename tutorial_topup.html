@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top-up Diamond Mobile Legends</title>
+    <style>
+        /* Previous styles remain the same */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #f0f2f5 0%, #e6e9f0 100%);
+            color: #333;
+            min-height: 100vh;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(90deg, #002fff 0%, #1a46ff 100%);
+            padding: 15px;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .back-button {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateX(-2px);
+        }
+
+        /* Tutorial section styles */
+        .tutorial-section {
+            margin: 0 auto 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #f5f7ff 0%, #ffffff 100%);
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+        }
+
+        .tutorial-title {
+            font-size: 1.8em;
+            color: #002fff;
+            margin-bottom: 25px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .tutorial-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .nav-button {
+            background: linear-gradient(90deg, #002fff 0%, #1a46ff 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .step-container {
+            display: none;
+            animation: fadeEffect 0.5s;
+        }
+
+        .step-container.active {
+            display: block;
+        }
+
+        @keyframes fadeEffect {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+
+        .step-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        .step-image-container {
+            width: 100%;
+            margin: 15px 0;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            padding-top: 177.78%; /* 16:9 aspect ratio */
+            background: #f0f2f5;
+        }
+
+        .step-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .step-number {
+            background: linear-gradient(90deg, #002fff 0%, #1a46ff 100%);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .step-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+        }
+
+        .step-description {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .step-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .step-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ccc;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .step-dot.active {
+            background: #002fff;
+            transform: scale(1.2);
+        }
+
+        /* Media queries */
+        @media (max-width: 768px) {
+            .step-image-container {
+                padding-top: 177.78%; /* Maintain 16:9 on mobile */
+            }
+            
+            .tutorial-navigation {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="topup.html" class="back-button">← Kembali ke Beranda</a>
+    </div>
+    
+    <div class="container">
+        <div class="tutorial-section">
+            <h2 class="tutorial-title">Cara Top Up Diamond Mobile Legends</h2>
+            
+            <div class="tutorial-navigation">
+                <button class="nav-button" id="prevBtn" onclick="changeStep(-1)">Sebelumnya</button>
+                <div class="step-indicators">
+                    <span class="step-dot active" onclick="goToStep(0)"></span>
+                    <span class="step-dot" onclick="goToStep(1)"></span>
+                    <span class="step-dot" onclick="goToStep(2)"></span>
+                    <span class="step-dot" onclick="goToStep(3)"></span>
+                    <span class="step-dot" onclick="goToStep(4)"></span>
+                </div>
+                <button class="nav-button" id="nextBtn" onclick="changeStep(1)">Selanjutnya</button>
+            </div>
+
+            <div class="steps-wrapper">
+                <!-- Step 1 -->
+                <div class="step-container active" data-step="1">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <div class="step-title">Temukan User ID dan Server</div>
+                        <div class="step-image-container">
+                            <img src="tutorial1.png" alt="Cara menemukan User ID" class="step-image">
+                        </div>
+                        <div class="step-description">
+                            1. Buka Mobile Legends<br>
+                            2. Klik foto profil di pojok kiri atas<br>
+                            3. User ID dan Server terletak di bawah nama profil<br>
+                            4. Format: 12345678 (1234)
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="step-container" data-step="2">
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <div class="step-title">Pilih Geme</div>
+                        <div class="step-image-container">
+                            <img src="tutorial2.jpg" alt="Pemilihan diamond" class="step-image">
+                        </div>
+                        <div class="step-description">
+                            1. Pilih geme yang Anda inginkan di top up kan
+                            <br>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="step-container" data-step="3">
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <div class="step-title">Pilih Jumlah Diamond</div>
+                        <div class="step-image-container">
+                            <img src="tutorial3.jpg" alt="Metode pembayaran" class="step-image">
+                        </div>
+                        <div class="step-description">        1. Pilih paket diamond yang Anda inginkan<br>
+                            2. Perhatikan jumlah diamond dan harga<br>
+                            3. Pastikan saldo mencukupi untuk pembelian
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="step-container" data-step="4">
+                    <div class="step-card">
+                        <div class="step-number">4</div>
+                        <div class="step-title">Pilih Metode Pembayaran</div>
+                        <div class="step-image-container">
+                            <img src="tutorial4.jpg" alt="Konfirmasi pembayaran" class="step-image">
+                        </div>
+                        <div class="step-description">        1. Pilih metode pembayaran (DANA/OVO/GoPay)<br>
+                            2. Pastikan akun pembayaran Anda aktif<br>
+                            3. Siapkan saldo yang cukup
+
+                        </div>
+                    </div>
+                </div>
+                <!-- Step 2 -->
+                <div class="step-container" data-step="5">
+                    <div class="step-card">
+                        <div class="step-number">5</div>
+                        <div class="step-title">Konfirmasi dan Bayar</div>
+                        <div class="step-image-container">
+                            <img src="tutorial5.png" alt="Pemilihan diamond" class="step-image">
+                        </div>
+                        <div class="step-description">        1. Klik tombol "Beli Sekarang"<br>
+                            2. Anda akan diarahkan ke WhatsApp<br>
+                            3. Ikuti instruksi pembayaran<br>
+                            4. Diamond akan masuk dalam 1-5 menit
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Original form content remains here -->
+    </div>
+
+    <script>
+        let currentStep = 0;
+        const totalSteps = 5;
+
+        function showStep(stepIndex) {
+            const steps = document.querySelectorAll('.step-container');
+            const dots = document.querySelectorAll('.step-dot');
+            
+            steps.forEach(step => step.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            steps[stepIndex].classList.add('active');
+            dots[stepIndex].classList.add('active');
+            
+            // Update buttons
+            document.getElementById('prevBtn').disabled = stepIndex === 0;
+            document.getElementById('nextBtn').disabled = stepIndex === totalSteps - 1;
+        }
+
+        function changeStep(n) {
+            currentStep = Math.max(0, Math.min(currentStep + n, totalSteps - 1));
+            showStep(currentStep);
+        }
+
+        function goToStep(stepIndex) {
+            currentStep = stepIndex;
+            showStep(currentStep);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            showStep(0);
+        });
+
+        // Original JavaScript remains here
+    </script>
+</body>
+</html>
